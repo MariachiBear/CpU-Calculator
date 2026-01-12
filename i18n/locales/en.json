@@ -1,5 +1,10 @@
 {
-    "quantity": "Quantity",
-    "price": "Price",
-    "costPer": "Cost per"
+  "quantity": "Quantity",
+  "price": "Price",
+  "costPer": "Cost per",
+  "pwaUpdateAvailableTitle": "New content available!",
+  "pwaUpdateAvailableDescription": "A new version is ready. Please click on the reload button to get the latest updates.",
+  "pwaUpdateButtonLabel": "Reload",
+  "metricSystemLabel": "Metric system",
+  "imperialSystemLabel": "\"Freedom\" Units"
 }
