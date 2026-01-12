@@ -1,8 +1,8 @@
 <template>
   <UApp>
+        <NuxtPwaManifest />
     <NuxtRouteAnnouncer />
     <MainView />
-    <!-- <NuxtWelcome /> -->
   </UApp>
 </template>
 
