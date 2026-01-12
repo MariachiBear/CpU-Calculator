@@ -1,0 +1,10 @@
+{
+  "quantity": "Quantité",
+  "price": "Prix",
+  "costPer": "Coût par",
+  "pwaUpdateAvailableTitle": "Nouveau contenu disponible !",
+  "pwaUpdateAvailableDescription": "Une nouvelle version est prête. Veuillez cliquer sur le bouton \"recharger\" pour obtenir les dernières mises à jour.",
+  "pwaUpdateButtonLabel": "Recharger",
+  "metricSystemLabel": "Système métrique",
+  "imperialSystemLabel": "Système impérial"
+}
