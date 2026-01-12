@@ -1,6 +1,7 @@
 <template>
   <UApp>
-        <NuxtPwaManifest />
+    <NuxtPwaManifest />
+    <PwaNotification />
     <NuxtRouteAnnouncer />
     <MainView />
   </UApp>
@@ -8,19 +9,9 @@
 
 <script setup lang="ts">
 import MainView from './components/layout/MainView.vue';
-import * as math from 'mathjs';
+import PwaNotification from './components/PwaNotification.vue';
 
 const { loadLocaleMessages, locale } = useI18n()
 
 await loadLocaleMessages(locale.value)
-
-tryOnMounted(() => {
-  const lb = math.unit(3, 'lb').toNumber('lb')
-  const oz = math.unit(1, 'oz').toNumber('lb')
-
-  const sum = math.add(lb, oz)
-  console.log(`3 lb + 1 oz = ${sum} lb`)
-
-});
-
 </script>

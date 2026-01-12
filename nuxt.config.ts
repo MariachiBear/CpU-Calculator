@@ -52,10 +52,10 @@ export default defineNuxtConfig({
     manifest: {
       name: "Cost per Unit Calculator",
       short_name: "CpU Calculator",
-      theme_color: "#ffffff",
+      theme_color: "#000000",
       categories: ["utilities", "productivity"],
       description: "A simple cost per unit calculator to help you make better purchasing decisions.",
-      background_color: "#ffffff",
+      background_color: "#000000",
       display: "standalone",
       scope: "/",
       start_url: "/",
