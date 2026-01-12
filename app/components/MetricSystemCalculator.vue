@@ -2,16 +2,16 @@
     <div class="flex flex-col gap-2 justify-center items-center">
         <div id="data" class="flex flex-col gap-2 justify-center items-center w-full">
             <div class="flex flex-row justify-center items-end md:gap-5 w-full">
-                <UInputNumber v-model="currentQuantity" class="w-full" size="xl" variant="ghost" placeholder="Quantity"
+                <UInputNumber v-model="currentQuantity" class="w-full" size="xl" variant="ghost" :placeholder="$t('quantity')"
                     autofocus :min="0" :increment="false" :decrement="false" />
 
                 <USelect v-model="currentUnit" variant="none" class="min-w-3/10 max-w-3/10" :items="relativeUnitsList" />
             </div>
             <div class="flex flex-row justify-center items-center w-full">
-                <UInputNumber v-model="currentPrice" class="w-full" size="xl" variant="ghost" placeholder="Price"
+                <UInputNumber v-model="currentPrice" class="w-full" size="xl" variant="ghost" :placeholder="$t('price')"
                     :step-snapping="false" :min="0" :increment="false" :decrement="false" :format-options="{
                         style: 'currency',
-                        currency: appCurrency,
+                        currency: state.appCurrency,
                         currencyDisplay: 'symbol',
                         currencySign: 'accounting',
                         roundingMode: 'trunc',
@@ -21,14 +21,14 @@
 
         <div id="result" class="flex flex-col justify-center items-center gap-1 w-full">
             <span class="flex flex-row justify-center items-center gap-1 w-full text-2xl md:text-4xl xl:text-3xl">
-                Cost per
+                {{ $t('costPer') }}
                 <USelect v-model="currentTargetUnit" variant="ghost" :items="targetUnits" size="xl" />
             </span>
             <div class="flex flex-row justify-center items-center gap-1 w-full">
-                <UInputNumber v-model="pricePerUnit" size="xl" variant="subtle" class="w-full" color="neutral" placeholder="Price"
+                <UInputNumber v-model="pricePerUnit" size="xl" variant="subtle" class="w-full" color="neutral" :placeholder="$t('price')"
                     readonly disabled :increment="false" :decrement="false" :format-options="{
                         style: 'currency',
-                        currency: appCurrency,
+                        currency: state.appCurrency,
                         currencyDisplay: 'symbol',
                         currencySign: 'accounting',
                     }" />
@@ -39,7 +39,9 @@
 
 <script setup lang="ts">
 import * as math from 'mathjs';
+import { useGlobalState } from '~/store';
 
+const state = useGlobalState()
 // defineProps<{
 //     targetUnit: {
 //         type: StringConstructor;
@@ -58,7 +60,6 @@ const metricSystemUnits = {
 const targetUnits = ref<string[]>(Object.values(metricSystemUnits));
 const currentTargetUnit = ref<string>(targetUnits.value[0] || 'kg');
 
-const appCurrency = ref('EUR');
 const relativeUnitsIndex = ref<Record<string, UnitEntry[]>>({
     kg: [
         { unit: 'mg', factor: 1000000 },
