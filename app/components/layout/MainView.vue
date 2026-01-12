@@ -1,9 +1,8 @@
 <template>
-    <UMain class="p-5 md:p-20 flex flex-col justify-center items-center min-h-screen">
+    <UMain class="p-5 md:p-10 flex flex-col justify-center items-center min-h-screen">
         <MainHeader />
         <ItemCalculator />
         <SystemSelector />
-    
     </UMain>
 </template>
 

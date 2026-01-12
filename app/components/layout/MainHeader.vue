@@ -1,10 +1,13 @@
 <template>
     <UContainer
         class="rounded-none fixed top-0 min-w-screen p-5 flex flex-row justify-between items-center gap-2 bg-transparent">
-        <ULocaleSelect :model-value="locale" :locales="locales" @update:model-value="setLocale($event)" />
-        <USelect :model-value="state.appCurrency" :items="currencyList"
-            @update:model-value="state.appCurrency = $event" />
-        <UColorModeSelect />
+        <UColorModeSwitch size="xl" color="neutral" />
+        <div>
+            <ULocaleSelect :model-value="locale" :locales="locales" variant="ghost" size="xl"
+                @update:model-value="setLocale($event)" />
+            <USelect :model-value="state.appCurrency" variant="ghost" :items="currencyList" size="xl" icon="mdi-euro"
+                @update:model-value="state.appCurrency = $event" />
+        </div>
     </UContainer>
 </template>
 

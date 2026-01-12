@@ -42,12 +42,7 @@ import * as math from 'mathjs';
 import { useGlobalState } from '~/store';
 
 const state = useGlobalState()
-// defineProps<{
-//     targetUnit: {
-//         type: StringConstructor;
-//         required: true;
-//     };
-// }>();
+
 interface UnitEntry {
     unit: string;
     factor: number;

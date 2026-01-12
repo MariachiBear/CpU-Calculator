@@ -1,8 +1,13 @@
 <template>
-    <UContainer class="fixed bottom-0 pb-20 min-w-screen rounded-none flex flex-row justify-center items-center gap-2 text-sm">
-        <span>📐 Metric System</span>
+    <UContainer
+        class="fixed bottom-0 pb-20 min-w-screen rounded-none flex flex-row justify-center items-center gap-2 text-sm">
+        <span class="flex flex-row justify-center items-center gap-2">
+            <span class="text-2xl"><UIcon name="picon:geometric" /></span>{{ $t('metricSystemLabel') }}
+        </span>
         <USwitch v-model="state.useImperialSystem" size="xl" color="neutral" />
-        <span> "Freedom" Units 🦅</span>
+        <span class="flex flex-row justify-center items-center gap-2">
+            {{ $t('imperialSystemLabel') }}<span class="text-2xl"><UIcon name="twemoji:eagle" /></span>
+        </span>
     </UContainer>
 </template>
 

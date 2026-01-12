@@ -12,8 +12,8 @@ tryOnMounted(() => {
 
 function showToast() {
     toast.add({
-        title: 'New content available!',
-        description: 'A new version is ready. Please click on the reload button to get the latest updates.',
+        title: $t('pwaUpdateAvailableTitle'),
+        description: $t('pwaUpdateAvailableDescription'),
         type: 'foreground',
         close: {
             size: 'xl',
@@ -29,7 +29,7 @@ function showToast() {
         actions: [
             {
                 icon: 'mdi-refresh',
-                label: 'Reload',
+                label: $t('pwaUpdateButtonLabel'),
                 color: 'neutral',
                 variant: 'soft',
                 size: 'xl',
