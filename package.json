@@ -27,6 +27,7 @@
     "vue-router": "^4.6.4"
   },
   "devDependencies": {
-    "@types/mathjs": "^9.4.1"
+    "@types/mathjs": "^9.4.1",
+    "@types/node": "^25.0.6"
   }
 }
