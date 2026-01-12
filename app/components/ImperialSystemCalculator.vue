@@ -4,7 +4,7 @@
             <div v-for="item in relativeUnitsList" :key="item.name"
                 class="flex flex-row justify-center items-end md:gap-5 w-full">
                 <UInputNumber v-model="item.quantity" class="w-full" size="xl" variant="ghost"
-                    :placeholder="$t('quantity') + ' ' + item.unit" autofocus :min="0" :increment="false"
+                    :placeholder="$t('quantity') + ' ' + item.unit" :min="0" :increment="false"
                     :decrement="false" :step="0.0001" :format-options="{
                         style: 'unit',
                         unit: item.name,
@@ -86,13 +86,11 @@ const currentUnit = ref(relativeUnitsList.value[0]);
 const currentPrice = ref();
 const pricePerUnit = computed(() => {
     if (currentPrice.value) {
-        const targetUnitSum = (relativeUnitsIndex.value[currentTargetUnit.value] ?? []).reduce((acc, item) => {
-            console.log(`Converting ${item.quantity} ${item.unit} to ${currentTargetUnit.value}`);
 
+        const targetUnitSum = (relativeUnitsIndex.value[currentTargetUnit.value] ?? []).reduce((acc, item) => {
             const quantity = item.quantity ?? 0;
             const inTargetUnit = math.unit(quantity, item.unit).toNumber(currentTargetUnit.value);
 
-            console.log(`  => ${inTargetUnit} ${currentTargetUnit.value}`);
             return acc + inTargetUnit;
         }, 0);
 

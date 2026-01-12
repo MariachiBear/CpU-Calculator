@@ -3,7 +3,7 @@
         <div id="data" class="flex flex-col gap-2 justify-center items-center w-full">
             <div class="flex flex-row justify-center items-end md:gap-5 w-full">
                 <UInputNumber v-model="currentQuantity" class="w-full" size="xl" variant="ghost" :placeholder="$t('quantity')"
-                    autofocus :min="0" :increment="false" :decrement="false" />
+                    :min="0" :increment="false" :decrement="false" />
 
                 <USelect v-model="currentUnit" variant="none" class="min-w-3/10 max-w-3/10" :items="relativeUnitsList" />
             </div>
