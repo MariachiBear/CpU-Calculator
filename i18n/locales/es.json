@@ -6,5 +6,9 @@
   "pwaUpdateAvailableDescription": "Una nueva versión está lista. Haga clic en el botón de recarga para obtener las últimas actualizaciones.",
   "pwaUpdateButtonLabel": "Recargar",
   "metricSystemLabel": "Sistema métrico",
-  "imperialSystemLabel": "Sistema imperial"
+  "imperialSystemLabel": "Sistema imperial",
+  "nuxtSiteConfig": {
+    "name": " Calculadora de Coste por Unidad",
+    "description": "Una aplicación web moderna y avanzada para calcular el coste por unidad de los productos. Compare precios de forma eficaz normalizándolos a una unidad común (por ejemplo, coste por kg, por litro, por libra, etc.)."
+  }
 }

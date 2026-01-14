@@ -16,11 +16,6 @@ export default defineNuxtConfig({
 
   modules: [
     "@vite-pwa/nuxt",
-    (_, nuxt) => {
-      nuxt.hook("pwa:beforeBuildServiceWorker", (options) => {
-        console.log("pwa:beforeBuildServiceWorker: ", options.base);
-      });
-    },
     "@nuxt/a11y",
     "@nuxt/eslint",
     "@nuxt/hints",
@@ -29,21 +24,30 @@ export default defineNuxtConfig({
     "@vueuse/nuxt",
     "@nuxtjs/i18n",
     "@nuxtjs/seo",
+    "nuxt-og-image",
   ],
 
-  site: {
-    url: "https://cpuc.chibe.dev",
-    name: "Cost per unit calculator",
-    description:
-      "A modern, progressive web app (PWA) for calculating the cost per unit of products. Compare prices effectively by normalizing them to a common unit (e.g., cost per kg, per liter, per pound, etc.).",
+  robots: {
+    blockAiBots: true,
+    blockNonSeoBots: true,
+  },
+
+  colorMode: {
+    preference: "dark",
+    fallback: "light", // will render in light mode
   },
 
   ogImage: {
     enabled: true,
-    zeroRuntime: true,
+    zeroRuntime: false,
+    strictNuxtContentPaths: true,
+    defaults: {
+      alt: "Calculate the cost per unit of products and compare prices effectively.",
+    },
   },
 
   i18n: {
+    baseUrl: "https://cpuc.chibe.dev",
     defaultLocale: "en",
     locales: [
       { code: "en", name: "English", file: { path: "en.json", cache: true } },
@@ -59,6 +63,7 @@ export default defineNuxtConfig({
 
   nitro: {
     prerender: {
+      crawlLinks: true,
       routes: ["/"],
     },
   },

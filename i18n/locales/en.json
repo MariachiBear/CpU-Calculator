@@ -6,5 +6,9 @@
   "pwaUpdateAvailableDescription": "A new version is ready. Please click on the reload button to get the latest updates.",
   "pwaUpdateButtonLabel": "Reload",
   "metricSystemLabel": "Metric system",
-  "imperialSystemLabel": "\"Freedom\" Units"
+  "imperialSystemLabel": "\"Freedom\" Units",
+  "nuxtSiteConfig": {
+    "name": "Calculateur du coût unitaire",
+    "description": "A modern, progressive web app for calculating the cost per unit of products. Compare prices effectively by normalizing them to a common unit (e.g., cost per kg, per liter, per pound, etc.)."
+  }
 }

@@ -6,5 +6,9 @@
   "pwaUpdateAvailableDescription": "Une nouvelle version est prête. Veuillez cliquer sur le bouton \"recharger\" pour obtenir les dernières mises à jour.",
   "pwaUpdateButtonLabel": "Recharger",
   "metricSystemLabel": "Système métrique",
-  "imperialSystemLabel": "Système impérial"
+  "imperialSystemLabel": "Système impérial",
+  "nuxtSiteConfig": {
+    "name": "",
+    "description": "Une application web moderne et innovante permettant de calculer le coût unitaire des produits. Comparez efficacement les prix en les normalisant selon une unité commune (par exemple, coût au kg, au litre, à la livre, etc.)."
+  }
 }
