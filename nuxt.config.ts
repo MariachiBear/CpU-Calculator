@@ -39,7 +39,7 @@ export default defineNuxtConfig({
 
   ogImage: {
     enabled: true,
-    zeroRuntime: false,
+    zeroRuntime: true,
     strictNuxtContentPaths: true,
     defaults: {
       alt: "Calculate the cost per unit of products and compare prices effectively.",
@@ -69,6 +69,7 @@ export default defineNuxtConfig({
   },
 
   pwa: {
+    base: "/",
     scope: "/",
     injectRegister: false,
     strategies: sw ? "injectManifest" : "generateSW",
