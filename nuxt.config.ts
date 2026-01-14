@@ -1,4 +1,3 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 import process from "node:process";
 
 const sw = process.env.SW === "true";
@@ -28,7 +27,22 @@ export default defineNuxtConfig({
     "@nuxt/ui",
     "@vueuse/nuxt",
     "@nuxtjs/i18n",
+    "@nuxtjs/seo",
   ],
+
+  site: {
+    url: "https://cpuc.chibe.dev",
+    name: "Cost per unit calculator",
+    description:
+      "A modern, progressive web app (PWA) for calculating the cost per unit of products. Compare prices effectively by normalizing them to a common unit (e.g., cost per kg, per liter, per pound, etc.).",
+  },
+
+  ogImage: {
+    zeroRuntime: true,
+    defaults: {
+      component: "OgImageTemplate",
+    },
+  },
 
   i18n: {
     defaultLocale: "en",
@@ -40,7 +54,7 @@ export default defineNuxtConfig({
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: "i18n_redirected",
-      redirectOn: "root", // recommended
+      redirectOn: "root",
     },
   },
 
@@ -665,19 +679,7 @@ export default defineNuxtConfig({
     },
     client: {
       installPrompt: true,
-      // you don't need to include this: only for testing purposes
-      // if enabling periodic sync for update use 1 hour or so (periodicSyncForUpdates: 3600)
-      periodicSyncForUpdates: 20,
+      periodicSyncForUpdates: 3600,
     },
-    // experimental: {
-    //   includeAllowlist: true,
-    // },
-    // devOptions: {
-    //   enabled: true,
-    //   suppressWarnings: true,
-    //   navigateFallback: "/",
-    //   navigateFallbackAllowlist: [/^\/$/],
-    //   type: "module",
-    // },
   },
 });
