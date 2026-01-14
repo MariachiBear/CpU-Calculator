@@ -34,7 +34,7 @@ export default defineNuxtConfig({
 
   colorMode: {
     preference: "dark",
-    fallback: "light", // will render in light mode
+    fallback: "light",
   },
 
   ogImage: {
@@ -84,7 +84,7 @@ export default defineNuxtConfig({
       dir: "ltr",
       display_override: ["window-controls-overlay", "standalone", "minimal-ui"],
       display: "standalone",
-      edge_side_panel: { preferred_width: 400 },
+      edge_side_panel: { preferred_width: 500 },
       handle_links: "preferred",
       id: "dev.chibe.cpuc",
       lang: "en",
@@ -98,27 +98,27 @@ export default defineNuxtConfig({
       screenshots: [
         {
           src: "screenshots/Screenshot_20260112-204939.png",
-          sizes: "1080x2200",
+          sizes: "1080x2204",
           type: "image/png",
           label: "Main Interface",
         },
         {
           src: "screenshots/Screenshot_20260112-205019.png",
-          sizes: "1080x2200",
+          sizes: "1080x2208",
           type: "image/png",
-          label: "Calculation Example",
+          label: "Calculation Example 1",
         },
         {
           src: "screenshots/Screenshot_20260112-205034.png",
-          sizes: "1080x2200",
+          sizes: "1080x2210",
           type: "image/png",
-          label: "Calculation Example",
+          label: "Calculation Example 2",
         },
         {
           src: "screenshots/Screenshot_20260112-205056.png",
-          sizes: "1080x2200",
+          sizes: "1080x2209",
           type: "image/png",
-          label: "Calculation Example",
+          label: "Calculation Example 3",
         },
       ],
       icons: [
