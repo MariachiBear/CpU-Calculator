@@ -1,5 +1,5 @@
 {
-  "name": "ppu",
+  "name": "cpu-calculator",
   "type": "module",
   "private": true,
   "scripts": {
