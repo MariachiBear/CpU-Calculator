@@ -1,8 +1,11 @@
 import { createGlobalState, useStorage } from "@vueuse/core";
 
 export const useGlobalState = createGlobalState(() =>
-  useStorage("config", {
-    appCurrency: "EUR",
-    useImperialSystem: false,
-  })
+  useStorage<{ appCurrency: string; useImperialSystem: boolean | null }>(
+    "config",
+    {
+      appCurrency: "",
+      useImperialSystem: null,
+    }
+  )
 );

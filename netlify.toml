@@ -3,19 +3,28 @@ publish = "dist"
 command = "pnpm run build"
 
 [[redirects]]
+from = "/.well-known/assetlinks.json"
+to = "/.well-known/assetlinks.json"
+status = 200
+force = true
+
+[[redirects]]
+from = "/manifest.webmanifest"
+to = "/manifest.webmanifest"
+status = 200
+force = true
+
+[[redirects]]
 from = "/*"
 to = "/index.html"
 status = 200
 
 [[headers]]
-for = "/manifest.webmanifest"
+for = "/.well-known/assetlinks.json"
 [headers.values]
-Content-Type = "application/manifest+json"
+Content-Type = "application/json"
 
 [[headers]]
-for = "/assets/*"
+for = "/manifest.webmanifest"
 [headers.values]
-cache-control = '''
-    max-age=31536000,
-    immutable
-    '''
+Content-Type = "application/manifest+webmanifest"

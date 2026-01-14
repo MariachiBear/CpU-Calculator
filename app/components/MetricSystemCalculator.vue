@@ -1,171 +1,178 @@
 <template>
-    <div class="flex flex-col gap-2 justify-center items-center">
-        <div id="data" class="flex flex-col gap-2 justify-center items-center w-full">
-            <div class="flex flex-row justify-center items-end md:gap-5 w-full">
-                <UInputNumber v-model="currentQuantity" class="w-full" size="xl" variant="ghost" :placeholder="$t('quantity')"
-                    :min="0" :increment="false" :decrement="false" />
+  <div class="flex flex-col gap-2 justify-center items-center">
+    <div
+      id="data"
+      class="flex flex-col gap-2 justify-center items-center w-full"
+    >
+      <div class="flex flex-row justify-center items-end md:gap-5 w-full">
+        <UInputNumber
+          v-model="currentQuantity"
+          class="w-full"
+          size="xl"
+          variant="ghost"
+          :placeholder="$t('quantity')"
+          :min="0"
+          :increment="false"
+          :decrement="false"
+        />
 
-                <USelect v-model="currentUnit" variant="none" class="min-w-3/10 max-w-3/10" :items="relativeUnitsList" />
-            </div>
-            <div class="flex flex-row justify-center items-center w-full">
-                <UInputNumber v-model="currentPrice" class="w-full" size="xl" variant="ghost" :placeholder="$t('price')"
-                    :step-snapping="false" :min="0" :increment="false" :decrement="false" :format-options="{
-                        style: 'currency',
-                        currency: state.appCurrency,
-                        currencyDisplay: 'symbol',
-                        currencySign: 'accounting',
-                        roundingMode: 'trunc',
-                    }" />
-            </div>
-        </div>
+        <USelect
+          v-model="currentUnit"
+          variant="none"
+          class="min-w-3/10 max-w-3/10"
+          :items="relativeUnitsList"
+        />
+      </div>
 
-        <div id="result" class="flex flex-col justify-center items-center gap-1 w-full">
-            <span class="flex flex-row justify-center items-center gap-1 w-full text-2xl md:text-4xl xl:text-3xl">
-                {{ $t('costPer') }}
-                <USelect v-model="currentTargetUnit" variant="ghost" :items="targetUnits" size="xl" />
-            </span>
-            <div class="flex flex-row justify-center items-center gap-1 w-full">
-                <UInputNumber v-model="pricePerUnit" size="xl" variant="subtle" class="w-full" color="neutral" :placeholder="$t('price')"
-                    readonly disabled :increment="false" :decrement="false" :format-options="{
-                        style: 'currency',
-                        currency: state.appCurrency,
-                        currencyDisplay: 'symbol',
-                        currencySign: 'accounting',
-                    }" />
-            </div>
-        </div>
+      <UInputNumber
+        v-model="currentPrice"
+        class="w-full"
+        size="xl"
+        variant="ghost"
+        :placeholder="$t('price')"
+        :step-snapping="false"
+        :min="0"
+        :increment="false"
+        :decrement="false"
+        :format-options="currencyFormatOptions"
+      />
     </div>
+
+    <div
+      id="result"
+      class="flex flex-col justify-center items-center gap-1 w-full"
+    >
+      <span
+        class="flex flex-row justify-center items-center gap-1 w-full text-2xl md:text-4xl xl:text-3xl"
+      >
+        {{ $t("costPer") }}
+        <USelect
+          v-model="currentTargetUnit"
+          variant="ghost"
+          :items="targetUnits"
+          size="xl"
+        />
+      </span>
+
+      <UInputNumber
+        v-model="pricePerUnit"
+        size="xl"
+        variant="subtle"
+        class="w-full"
+        color="neutral"
+        :placeholder="$t('price')"
+        readonly
+        disabled
+        :increment="false"
+        :decrement="false"
+        :format-options="currencyFormatOptions"
+      />
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import * as math from 'mathjs';
-import { useGlobalState } from '~/store';
+import * as math from "mathjs";
+import { useGlobalState } from "~/store";
 
-const state = useGlobalState()
+const state = useGlobalState();
 
 interface UnitEntry {
-    unit: string;
-    factor: number;
+  unit: string;
+  factor: number;
 }
 
-const metricSystemUnits = {
-    Kilogram: 'kg',
-    Liter: 'L',
+const METRIC_SYSTEM_UNITS = {
+  Kilogram: "kg",
+  Liter: "L",
+} as const;
+
+const RELATIVE_UNITS_CONFIG: Record<string, UnitEntry[]> = {
+  kg: [
+    { unit: "mg", factor: 1000000 },
+    { unit: "g", factor: 1000 },
+    { unit: "kg", factor: 1 },
+  ],
+  L: [
+    { unit: "mL", factor: 1000 },
+    { unit: "cL", factor: 100 },
+    { unit: "L", factor: 1 },
+  ],
 };
-const targetUnits = ref<string[]>(Object.values(metricSystemUnits));
-const currentTargetUnit = ref<string>(targetUnits.value[0] || 'kg');
 
-const relativeUnitsIndex = ref<Record<string, UnitEntry[]>>({
-    kg: [
-        { unit: 'mg', factor: 1000000 },
-        { unit: 'g', factor: 1000 },
-        { unit: 'kg', factor: 1 },
-    ],
-    L: [
-        { unit: 'mL', factor: 1000 },
-        { unit: 'cL', factor: 100 },
-        { unit: 'L', factor: 1 },
-    ]
-});
+const targetUnits = Object.values(METRIC_SYSTEM_UNITS);
+const currentTargetUnit = ref<"kg" | "L">(targetUnits[0] ?? "kg");
+const relativeUnitsIndex = ref<Record<string, UnitEntry[]>>(
+  structuredClone(RELATIVE_UNITS_CONFIG)
+);
 
+const relativeUnitsList = computed(
+  () =>
+    relativeUnitsIndex.value[currentTargetUnit.value]?.map(
+      (entry) => entry.unit
+    ) ?? []
+);
 
-const relativeUnitsList = computed(() => {
-    return relativeUnitsIndex.value[currentTargetUnit.value]
-        ?.map((entry: UnitEntry) => entry.unit) ?? [];
+const currentUnit = ref(relativeUnitsList.value[0]);
+const currentPrice = ref<number>();
+const currentQuantity = ref<number>();
+
+const currencyFormatOptions = computed<Intl.NumberFormatOptions>(() => ({
+  style: "currency",
+  currency: state.value.appCurrency,
+  currencyDisplay: "symbol",
+  currencySign: "accounting",
+}));
+
+const pricePerUnit = computed(() => {
+  if (!currentPrice.value || !currentQuantity.value) return 0;
+
+  const currentFactor = relativeUnitsIndex.value[currentTargetUnit.value]?.find(
+    (entry) => entry.unit === currentUnit.value
+  )?.factor;
+
+  if (!currentFactor) return 0;
+
+  const result = (currentPrice.value / currentQuantity.value) * currentFactor;
+  return math.round(result, 2);
 });
 
 watch(currentTargetUnit, () => {
-    currentUnit.value = relativeUnitsList.value[0];
-});
-
-const currentUnit = ref(relativeUnitsList.value[0]);
-const currentPrice = ref();
-const currentQuantity = ref();
-const pricePerUnit = computed(() => {
-    const currentPriceValue = currentPrice.value;
-    const currentQuantityValue = currentQuantity.value;
-
-    if (currentPriceValue && currentQuantityValue) {
-        const currentFactor = relativeUnitsIndex.value[currentTargetUnit.value]
-            ?.find((entry: UnitEntry) => entry.unit === currentUnit.value)
-            ?.factor;
-
-        const result = math.evaluate(
-            '(currentPrice / currentQuantity) * currentFactor',
-            {
-                currentPrice: currentPrice.value,
-                currentQuantity: currentQuantity.value,
-                currentFactor: currentFactor,
-            }
-        );
-
-        console.log(currentPrice.value);
-
-        return math.round(result, 2);
-    }
-
-    return 0;
+  currentUnit.value = relativeUnitsList.value[0];
 });
 </script>
 
 <style scoped>
-#data :deep(:is(input)) {
-    @media (width < 48rem) {
-        font-size: 3.5rem;
-    }
+#data :deep(input) {
+  font-size: clamp(3.5rem, 8.5vw, 8.5rem);
 
-    @media (width >=48rem) and (width < 80rem) {
-        font-size: 8.5rem;
-    }
-
-    @media (width >=80rem) {
-        font-size: 3rem;
-    }
+  @media (width >= 80rem) {
+    font-size: 3rem;
+  }
 }
 
-#data :deep(:is(button)) {
-    @media (width < 48rem) {
-        font-size: 2.5rem;
-    }
+#data :deep(button) {
+  font-size: clamp(2.5rem, 6vw, 6rem);
 
-    @media (width >=48rem) and (width < 80rem) {
-        font-size: 6rem;
-
-    }
-
-    @media (width >=80rem) {
-        font-size: 3rem;
-    }
+  @media (width >= 80rem) {
+    font-size: 3rem;
+  }
 }
 
-#result :deep(:is(button)) {
-    @media (width < 48rem) {
-        font-size: 1.5rem;
-    }
+#result :deep(button) {
+  font-size: clamp(1.5rem, 2.25vw, 2.25rem);
 
-    @media (width >=48rem) and (width < 80rem) {
-        font-size: 2.25rem;
-    }
-
-    @media (width >=80rem) {
-        font-size: 1.875rem;
-    }
+  @media (width >= 80rem) {
+    font-size: 1.875rem;
+  }
 }
 
-#result :deep(:is(input)) {
+#result :deep(input) {
+  text-align: center !important;
+  font-size: clamp(3rem, 7vw, 7rem);
 
-    text-align: center !important;
-
-    @media (width < 64rem) {
-        font-size: 3rem;
-    }
-
-    @media (width >=48rem) and (width < 80rem) {
-        font-size: 7rem;
-    }
-
-    @media (width >=80rem) {
-        font-size: 2.8rem;
-    }
+  @media (width >= 80rem) {
+    font-size: 2.8rem;
+  }
 }
 </style>

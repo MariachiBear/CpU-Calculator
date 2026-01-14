@@ -1,9 +1,9 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 import process from "node:process";
 
 const sw = process.env.SW === "true";
 
 export default defineNuxtConfig({
+  ssr: true,
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
 
@@ -16,11 +16,6 @@ export default defineNuxtConfig({
 
   modules: [
     "@vite-pwa/nuxt",
-    (_, nuxt) => {
-      nuxt.hook("pwa:beforeBuildServiceWorker", (options) => {
-        console.log("pwa:beforeBuildServiceWorker: ", options.base);
-      });
-    },
     "@nuxt/a11y",
     "@nuxt/eslint",
     "@nuxt/hints",
@@ -28,9 +23,31 @@ export default defineNuxtConfig({
     "@nuxt/ui",
     "@vueuse/nuxt",
     "@nuxtjs/i18n",
+    "@nuxtjs/seo",
+    "nuxt-og-image",
   ],
 
+  robots: {
+    blockAiBots: true,
+    blockNonSeoBots: true,
+  },
+
+  colorMode: {
+    preference: "dark",
+    fallback: "light",
+  },
+
+  ogImage: {
+    enabled: true,
+    zeroRuntime: true,
+    strictNuxtContentPaths: true,
+    defaults: {
+      alt: "Calculate the cost per unit of products and compare prices effectively.",
+    },
+  },
+
   i18n: {
+    baseUrl: "https://cpuc.chibe.dev",
     defaultLocale: "en",
     locales: [
       { code: "en", name: "English", file: { path: "en.json", cache: true } },
@@ -40,15 +57,26 @@ export default defineNuxtConfig({
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: "i18n_redirected",
-      redirectOn: "root", // recommended
+      redirectOn: "root",
+    },
+  },
+
+  nitro: {
+    prerender: {
+      crawlLinks: true,
+      routes: ["/"],
     },
   },
 
   pwa: {
+    base: "/",
+    scope: "/",
+    injectRegister: false,
     strategies: sw ? "injectManifest" : "generateSW",
     srcDir: sw ? "service-worker" : undefined,
     filename: sw ? "sw.ts" : undefined,
-    registerType: "autoUpdate",
+    registerType: "prompt",
+    includeAssets: ["**/*"],
     manifest: {
       background_color: "#000000",
       categories: ["utilities", "productivity"],
@@ -57,7 +85,7 @@ export default defineNuxtConfig({
       dir: "ltr",
       display_override: ["window-controls-overlay", "standalone", "minimal-ui"],
       display: "standalone",
-      edge_side_panel: { preferred_width: 400 },
+      edge_side_panel: { preferred_width: 500 },
       handle_links: "preferred",
       id: "dev.chibe.cpuc",
       lang: "en",
@@ -71,27 +99,27 @@ export default defineNuxtConfig({
       screenshots: [
         {
           src: "screenshots/Screenshot_20260112-204939.png",
-          sizes: "1080x2200",
+          sizes: "1080x2204",
           type: "image/png",
           label: "Main Interface",
         },
         {
           src: "screenshots/Screenshot_20260112-205019.png",
-          sizes: "1080x2200",
+          sizes: "1080x2208",
           type: "image/png",
-          label: "Calculation Example",
+          label: "Calculation Example 1",
         },
         {
           src: "screenshots/Screenshot_20260112-205034.png",
-          sizes: "1080x2200",
+          sizes: "1080x2210",
           type: "image/png",
-          label: "Calculation Example",
+          label: "Calculation Example 2",
         },
         {
           src: "screenshots/Screenshot_20260112-205056.png",
-          sizes: "1080x2200",
+          sizes: "1080x2209",
           type: "image/png",
-          label: "Calculation Example",
+          label: "Calculation Example 3",
         },
       ],
       icons: [
@@ -658,26 +686,27 @@ export default defineNuxtConfig({
       ],
     },
     workbox: {
-      globPatterns: ["**/*.{js,css,html,png,svg,ico}"],
+      globPatterns: [
+        "**/*.{js,json,css,html,txt,svg,png,ico,webp,woff,woff2,ttf,eot,otf,wasm}",
+      ],
+      cleanupOutdatedCaches: true,
+      clientsClaim: true,
     },
     injectManifest: {
-      globPatterns: ["**/*.{js,css,html,png,svg,ico}"],
+      globPatterns: [
+        "**/*.{js,json,css,html,txt,svg,png,ico,webp,woff,woff2,ttf,eot,otf,wasm}",
+      ],
+      globIgnores: ["emojis/**", "manifest**.webmanifest"],
     },
     client: {
       installPrompt: true,
-      // you don't need to include this: only for testing purposes
-      // if enabling periodic sync for update use 1 hour or so (periodicSyncForUpdates: 3600)
-      periodicSyncForUpdates: 20,
     },
-    // experimental: {
-    //   includeAllowlist: true,
-    // },
-    // devOptions: {
-    //   enabled: true,
-    //   suppressWarnings: true,
-    //   navigateFallback: "/",
-    //   navigateFallbackAllowlist: [/^\/$/],
-    //   type: "module",
-    // },
+    devOptions: {
+      enabled: false,
+      suppressWarnings: true,
+      navigateFallback: "/",
+      navigateFallbackAllowlist: [/^\/$/],
+      type: "module",
+    },
   },
 });
