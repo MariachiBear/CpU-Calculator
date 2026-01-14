@@ -64,6 +64,8 @@ export default defineNuxtConfig({
   },
 
   pwa: {
+    scope: "/",
+    injectRegister: false,
     strategies: sw ? "injectManifest" : "generateSW",
     srcDir: sw ? "service-worker" : undefined,
     filename: sw ? "sw.ts" : undefined,
@@ -678,12 +680,17 @@ export default defineNuxtConfig({
       ],
     },
     workbox: {
-      globPatterns: ["**/*.{js,css,html,png,svg,ico}"],
+      globPatterns: [
+        "**/*.{js,json,css,html,txt,svg,png,ico,webp,woff,woff2,ttf,eot,otf,wasm}",
+      ],
       cleanupOutdatedCaches: true,
       clientsClaim: true,
     },
     injectManifest: {
-      globPatterns: ["**/*.{js,css,html,png,svg,ico}"],
+      globPatterns: [
+        "**/*.{js,json,css,html,txt,svg,png,ico,webp,woff,woff2,ttf,eot,otf,wasm}",
+      ],
+      globIgnores: ["emojis/**", "manifest**.webmanifest"],
     },
     client: {
       installPrompt: true,
