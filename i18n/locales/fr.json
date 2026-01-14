@@ -8,7 +8,9 @@
   "metricSystemLabel": "Système métrique",
   "imperialSystemLabel": "Système impérial",
   "nuxtSiteConfig": {
-    "name": "",
+    "name": "Calculateur du coût unitaire",
     "description": "Une application web moderne et innovante permettant de calculer le coût unitaire des produits. Comparez efficacement les prix en les normalisant selon une unité commune (par exemple, coût au kg, au litre, à la livre, etc.)."
-  }
+  },
+  "pwaOfflineAvailableTitle": "Mode hors ligne prêt !",
+  "pwaOfflineAvailableDescription": "L'application est prête à être utilisée hors ligne."
 }

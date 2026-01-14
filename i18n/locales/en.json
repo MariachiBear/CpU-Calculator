@@ -8,7 +8,9 @@
   "metricSystemLabel": "Metric system",
   "imperialSystemLabel": "\"Freedom\" Units",
   "nuxtSiteConfig": {
-    "name": "Calculateur du coût unitaire",
+    "name": "Cost per unit calculator",
     "description": "A modern, progressive web app for calculating the cost per unit of products. Compare prices effectively by normalizing them to a common unit (e.g., cost per kg, per liter, per pound, etc.)."
-  }
+  },
+  "pwaOfflineAvailableTitle": "Offline mode ready !",
+  "pwaOfflineAvailableDescription": "The application is ready to be used offline."
 }
