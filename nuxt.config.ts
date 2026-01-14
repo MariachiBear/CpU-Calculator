@@ -3,6 +3,7 @@ import process from "node:process";
 const sw = process.env.SW === "true";
 
 export default defineNuxtConfig({
+  ssr: true,
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
 
@@ -38,10 +39,8 @@ export default defineNuxtConfig({
   },
 
   ogImage: {
+    enabled: true,
     zeroRuntime: true,
-    defaults: {
-      component: "OgImageTemplate",
-    },
   },
 
   i18n: {
@@ -58,11 +57,18 @@ export default defineNuxtConfig({
     },
   },
 
+  nitro: {
+    prerender: {
+      routes: ["/"],
+    },
+  },
+
   pwa: {
     strategies: sw ? "injectManifest" : "generateSW",
     srcDir: sw ? "service-worker" : undefined,
     filename: sw ? "sw.ts" : undefined,
     registerType: "autoUpdate",
+    includeAssets: ["**/*"],
     manifest: {
       background_color: "#000000",
       categories: ["utilities", "productivity"],
@@ -673,13 +679,21 @@ export default defineNuxtConfig({
     },
     workbox: {
       globPatterns: ["**/*.{js,css,html,png,svg,ico}"],
+      cleanupOutdatedCaches: true,
+      clientsClaim: true,
     },
     injectManifest: {
       globPatterns: ["**/*.{js,css,html,png,svg,ico}"],
     },
     client: {
       installPrompt: true,
-      periodicSyncForUpdates: 3600,
+    },
+    devOptions: {
+      enabled: false,
+      suppressWarnings: true,
+      navigateFallback: "/",
+      navigateFallbackAllowlist: [/^\/$/],
+      type: "module",
     },
   },
 });
