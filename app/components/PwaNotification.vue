@@ -1,3 +1,5 @@
+<template></template>
+
 <script setup lang="ts">
 // If you want to use it in setup, import from the nuxtApp.
 const { $pwa } = useNuxtApp();

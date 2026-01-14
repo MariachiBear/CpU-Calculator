@@ -2,7 +2,7 @@
   <UApp>
     <NuxtPwaManifest />
     <PwaNotification />
-    <NuxtRouteAnnouncer />
+    <!-- <NuxtRouteAnnouncer /> -->
     <MainView />
   </UApp>
 </template>
@@ -15,15 +15,18 @@ const { loadLocaleMessages, locale } = useI18n();
 
 await loadLocaleMessages(locale.value);
 
-defineOgImageComponent("NuxtSeo", [
-  // Default landscape for Twitter/Facebook
-  { title: "Cost per unit calculator" },
-  // Square for WhatsApp
-  {
-    title: "Cost per unit calculator",
-    key: "whatsapp",
-    width: 800,
-    height: 800,
-  },
-]);
+if (import.meta.server) {
+  defineOgImage({
+    url: "https://cpuc.chibe.dev/og/og.png",
+    width: 1200,
+    height: 630,
+    alt: "Calculate the cost per unit of products and compare prices effectively.",
+  });
+  defineOgImage({
+    url: "https://cpuc.chibe.dev/og/og_square.png",
+    width: 630,
+    height: 630,
+    alt: "Calculate the cost per unit of products and compare prices effectively.",
+  });
+}
 </script>
