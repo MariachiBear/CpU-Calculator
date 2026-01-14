@@ -67,7 +67,7 @@ export default defineNuxtConfig({
     strategies: sw ? "injectManifest" : "generateSW",
     srcDir: sw ? "service-worker" : undefined,
     filename: sw ? "sw.ts" : undefined,
-    registerType: "autoUpdate",
+    registerType: "prompt",
     includeAssets: ["**/*"],
     manifest: {
       background_color: "#000000",
