@@ -12,5 +12,3 @@
 import MainHeader from "./MainHeader.vue";
 import SystemSelector from "./SystemSelector.vue";
 </script>
-
-<style scoped></style>

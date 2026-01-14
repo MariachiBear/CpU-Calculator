@@ -2,7 +2,7 @@
   <UApp>
     <NuxtPwaManifest />
     <PwaNotification />
-    <MainView />
+    <MainView class="select-none" />
   </UApp>
 </template>
 

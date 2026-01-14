@@ -23,26 +23,19 @@
           :items="relativeUnitsList"
         />
       </div>
-      <div class="flex flex-row justify-center items-center w-full">
-        <UInputNumber
-          v-model="currentPrice"
-          class="w-full"
-          size="xl"
-          variant="ghost"
-          :placeholder="$t('price')"
-          :step-snapping="false"
-          :min="0"
-          :increment="false"
-          :decrement="false"
-          :format-options="{
-            style: 'currency',
-            currency: state.appCurrency,
-            currencyDisplay: 'symbol',
-            currencySign: 'accounting',
-            roundingMode: 'trunc',
-          }"
-        />
-      </div>
+
+      <UInputNumber
+        v-model="currentPrice"
+        class="w-full"
+        size="xl"
+        variant="ghost"
+        :placeholder="$t('price')"
+        :step-snapping="false"
+        :min="0"
+        :increment="false"
+        :decrement="false"
+        :format-options="currencyFormatOptions"
+      />
     </div>
 
     <div
@@ -60,26 +53,20 @@
           size="xl"
         />
       </span>
-      <div class="flex flex-row justify-center items-center gap-1 w-full">
-        <UInputNumber
-          v-model="pricePerUnit"
-          size="xl"
-          variant="subtle"
-          class="w-full"
-          color="neutral"
-          :placeholder="$t('price')"
-          readonly
-          disabled
-          :increment="false"
-          :decrement="false"
-          :format-options="{
-            style: 'currency',
-            currency: state.appCurrency,
-            currencyDisplay: 'symbol',
-            currencySign: 'accounting',
-          }"
-        />
-      </div>
+
+      <UInputNumber
+        v-model="pricePerUnit"
+        size="xl"
+        variant="subtle"
+        class="w-full"
+        color="neutral"
+        :placeholder="$t('price')"
+        readonly
+        disabled
+        :increment="false"
+        :decrement="false"
+        :format-options="currencyFormatOptions"
+      />
     </div>
   </div>
 </template>
@@ -95,14 +82,12 @@ interface UnitEntry {
   factor: number;
 }
 
-const metricSystemUnits = {
+const METRIC_SYSTEM_UNITS = {
   Kilogram: "kg",
   Liter: "L",
-};
-const targetUnits = ref<string[]>(Object.values(metricSystemUnits));
-const currentTargetUnit = ref<string>(targetUnits.value[0] || "kg");
+} as const;
 
-const relativeUnitsIndex = ref<Record<string, UnitEntry[]>>({
+const RELATIVE_UNITS_CONFIG: Record<string, UnitEntry[]> = {
   kg: [
     { unit: "mg", factor: 1000000 },
     { unit: "g", factor: 1000 },
@@ -113,105 +98,80 @@ const relativeUnitsIndex = ref<Record<string, UnitEntry[]>>({
     { unit: "cL", factor: 100 },
     { unit: "L", factor: 1 },
   ],
-});
+};
 
-const relativeUnitsList = computed(() => {
-  return (
+const targetUnits = Object.values(METRIC_SYSTEM_UNITS);
+const currentTargetUnit = ref<"kg" | "L">(targetUnits[0] ?? "kg");
+const relativeUnitsIndex = ref<Record<string, UnitEntry[]>>(
+  structuredClone(RELATIVE_UNITS_CONFIG)
+);
+
+const relativeUnitsList = computed(
+  () =>
     relativeUnitsIndex.value[currentTargetUnit.value]?.map(
-      (entry: UnitEntry) => entry.unit
+      (entry) => entry.unit
     ) ?? []
-  );
+);
+
+const currentUnit = ref(relativeUnitsList.value[0]);
+const currentPrice = ref<number>();
+const currentQuantity = ref<number>();
+
+const currencyFormatOptions = computed<Intl.NumberFormatOptions>(() => ({
+  style: "currency",
+  currency: state.value.appCurrency,
+  currencyDisplay: "symbol",
+  currencySign: "accounting",
+}));
+
+const pricePerUnit = computed(() => {
+  if (!currentPrice.value || !currentQuantity.value) return 0;
+
+  const currentFactor = relativeUnitsIndex.value[currentTargetUnit.value]?.find(
+    (entry) => entry.unit === currentUnit.value
+  )?.factor;
+
+  if (!currentFactor) return 0;
+
+  const result = (currentPrice.value / currentQuantity.value) * currentFactor;
+  return math.round(result, 2);
 });
 
 watch(currentTargetUnit, () => {
   currentUnit.value = relativeUnitsList.value[0];
 });
-
-const currentUnit = ref(relativeUnitsList.value[0]);
-const currentPrice = ref();
-const currentQuantity = ref();
-const pricePerUnit = computed(() => {
-  const currentPriceValue = currentPrice.value;
-  const currentQuantityValue = currentQuantity.value;
-
-  if (currentPriceValue && currentQuantityValue) {
-    const currentFactor = relativeUnitsIndex.value[
-      currentTargetUnit.value
-    ]?.find((entry: UnitEntry) => entry.unit === currentUnit.value)?.factor;
-
-    const result = math.evaluate(
-      "(currentPrice / currentQuantity) * currentFactor",
-      {
-        currentPrice: currentPrice.value,
-        currentQuantity: currentQuantity.value,
-        currentFactor: currentFactor,
-      }
-    );
-
-    console.log(currentPrice.value);
-
-    return math.round(result, 2);
-  }
-
-  return 0;
-});
 </script>
 
 <style scoped>
-#data :deep(:is(input)) {
-  @media (width < 48rem) {
-    font-size: 3.5rem;
-  }
+#data :deep(input) {
+  font-size: clamp(3.5rem, 8.5vw, 8.5rem);
 
-  @media (width >=48rem) and (width < 80rem) {
-    font-size: 8.5rem;
-  }
-
-  @media (width >=80rem) {
+  @media (width >= 80rem) {
     font-size: 3rem;
   }
 }
 
-#data :deep(:is(button)) {
-  @media (width < 48rem) {
-    font-size: 2.5rem;
-  }
+#data :deep(button) {
+  font-size: clamp(2.5rem, 6vw, 6rem);
 
-  @media (width >=48rem) and (width < 80rem) {
-    font-size: 6rem;
-  }
-
-  @media (width >=80rem) {
+  @media (width >= 80rem) {
     font-size: 3rem;
   }
 }
 
-#result :deep(:is(button)) {
-  @media (width < 48rem) {
-    font-size: 1.5rem;
-  }
+#result :deep(button) {
+  font-size: clamp(1.5rem, 2.25vw, 2.25rem);
 
-  @media (width >=48rem) and (width < 80rem) {
-    font-size: 2.25rem;
-  }
-
-  @media (width >=80rem) {
+  @media (width >= 80rem) {
     font-size: 1.875rem;
   }
 }
 
-#result :deep(:is(input)) {
+#result :deep(input) {
   text-align: center !important;
+  font-size: clamp(3rem, 7vw, 7rem);
 
-  @media (width < 64rem) {
-    font-size: 3rem;
-  }
-
-  @media (width >=48rem) and (width < 80rem) {
-    font-size: 7rem;
-  }
-
-  @media (width >=80rem) {
+  @media (width >= 80rem) {
     font-size: 2.8rem;
   }
 }
