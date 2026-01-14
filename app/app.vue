@@ -25,7 +25,13 @@ const { start } = useTimeoutFn(() => {
   if (state.value.useImperialSystem === null) {
     state.value.useImperialSystem = false;
   }
-}, 1000);
+}, 1);
 
 start();
+
+defineOgImage({
+  url: "/og/og.pmg",
+  width: 1200,
+  height: 630,
+});
 </script>
