@@ -16,6 +16,11 @@ export default defineNuxtConfig({
 
   modules: [
     "@vite-pwa/nuxt",
+    // (_, nuxt) => {
+    //   nuxt.hook("pwa:beforeBuildServiceWorker", (options) => {
+    //     console.log("pwa:beforeBuildServiceWorker: ", options.base);
+    //   });
+    // },
     "@nuxt/a11y",
     "@nuxt/eslint",
     "@nuxt/hints",
@@ -75,7 +80,7 @@ export default defineNuxtConfig({
     strategies: sw ? "injectManifest" : "generateSW",
     srcDir: sw ? "service-worker" : undefined,
     filename: sw ? "sw.ts" : undefined,
-    registerType: "prompt",
+    registerType: "autoUpdate",
     includeAssets: ["**/*"],
     manifest: {
       background_color: "#000000",
@@ -700,14 +705,11 @@ export default defineNuxtConfig({
       globIgnores: ["emojis/**", "manifest**.webmanifest", "**/*.{toml}"],
     },
     client: {
-      installPrompt: false,
+      installPrompt: true,
       periodicSyncForUpdates: 24 * 60 * 60,
     },
     devOptions: {
       enabled: false,
-      suppressWarnings: true,
-      navigateFallback: "/",
-      navigateFallbackAllowlist: [/^\/$/],
       type: "module",
     },
   },

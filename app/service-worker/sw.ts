@@ -9,11 +9,7 @@ import {
   precacheAndRoute,
 } from "workbox-precaching";
 import { NavigationRoute, registerRoute } from "workbox-routing";
-import {
-  CacheFirst,
-  NetworkOnly,
-  StaleWhileRevalidate,
-} from "workbox-strategies";
+import { CacheFirst, StaleWhileRevalidate } from "workbox-strategies";
 
 declare const self: any;
 
@@ -127,35 +123,22 @@ registerRoute(
 self.addEventListener(
   "message",
   (event: { data: any; type: any; ports: any }) => {
-    // TODO define/use correct data type
     if (event && event.data && event.data.type) {
-      // return the version of this service worker
       if (event.data.type === "GET_VERSION") {
         if (DEBUG_MODE) {
           console.debug(
-            `${componentName}:: Returning the service worker version: ${SERVICE_WORKER_VERSION}`
+            `${componentName}:: Returning version: ${SERVICE_WORKER_VERSION}`
           );
         }
         event.ports[0].postMessage(SERVICE_WORKER_VERSION);
-      }
-
-      // When this message is received, we can skip waiting and become active
-      // (i.e., this version of the service worker becomes active)
-      // Reference about why we wait: https://stackoverflow.com/questions/51715127/what-are-the-downsides-to-using-skipwaiting-and-clientsclaim-with-workbox
-      if (event.data.type === "SKIP_WAITING") {
+      } else if (event.data.type === "SKIP_WAITING") {
         if (DEBUG_MODE) {
           console.debug(`${componentName}:: Skipping waiting...`);
         }
         self.skipWaiting();
-      }
-
-      // When this message is received, we can take control of the clients with this version
-      // of the service worker
-      if (event.data.type === "CLIENTS_CLAIM") {
+      } else if (event.data.type === "CLIENTS_CLAIM") {
         if (DEBUG_MODE) {
-          console.debug(
-            `${componentName}:: Claiming clients and cleaning old caches`
-          );
+          console.debug(`${componentName}:: Claiming clients`);
         }
         self.clients.claim();
       }

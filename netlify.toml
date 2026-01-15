@@ -2,6 +2,14 @@
 publish = "dist"
 command = "pnpm run build"
 
+[[headers]]
+for = "/assets/*"
+[headers.values]
+cache-control = '''
+    max-age=31536000,
+    immutable
+    '''
+
 [[redirects]]
 from = "/.well-known/assetlinks.json"
 to = "/.well-known/assetlinks.json"
@@ -27,4 +35,4 @@ Content-Type = "application/json"
 [[headers]]
 for = "/manifest.webmanifest"
 [headers.values]
-Content-Type = "application/manifest+webmanifest"
+Content-Type = "application/manifest+json"

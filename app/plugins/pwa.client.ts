@@ -11,5 +11,11 @@ export default defineNuxtPlugin((nuxtApp) => {
       // eslint-disable-next-line no-console
       console.log(`service worker activated at ${url}`, registration);
     });
+  } else {
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("/sw.js");
+      });
+    }
   }
 });
