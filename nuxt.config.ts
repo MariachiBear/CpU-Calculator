@@ -689,6 +689,7 @@ export default defineNuxtConfig({
       globPatterns: [
         "**/*.{js,json,css,html,txt,svg,png,ico,webp,woff,woff2,ttf,eot,otf,wasm}",
       ],
+      globIgnores: ["**/*.{toml}"],
       cleanupOutdatedCaches: true,
       clientsClaim: true,
     },
@@ -696,10 +697,11 @@ export default defineNuxtConfig({
       globPatterns: [
         "**/*.{js,json,css,html,txt,svg,png,ico,webp,woff,woff2,ttf,eot,otf,wasm}",
       ],
-      globIgnores: ["emojis/**", "manifest**.webmanifest"],
+      globIgnores: ["emojis/**", "manifest**.webmanifest", "**/*.{toml}"],
     },
     client: {
-      installPrompt: true,
+      installPrompt: false,
+      periodicSyncForUpdates: 24 * 60 * 60,
     },
     devOptions: {
       enabled: false,

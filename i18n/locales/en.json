@@ -12,5 +12,8 @@
     "description": "A modern, progressive web app for calculating the cost per unit of products. Compare prices effectively by normalizing them to a common unit (e.g., cost per kg, per liter, per pound, etc.)."
   },
   "pwaOfflineAvailableTitle": "Offline mode ready !",
-  "pwaOfflineAvailableDescription": "The application is ready to be used offline."
+  "pwaOfflineAvailableDescription": "The application is ready to be used offline.",
+  "pwaInstallTitle": "You can install this app!",
+  "pwaInstalDescription": "You can install this app on your device by pressing the install button.",
+  "pwaInstallButtonLabel": "Install"
 }

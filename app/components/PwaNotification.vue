@@ -1,9 +1,46 @@
 <template></template>
 
 <script setup lang="ts">
+import { useGlobalState } from "~/store";
+
 const { $pwa } = useNuxtApp();
 const toast = useToast();
 const { t } = useI18n();
+const state = useGlobalState();
+
+function showInstallToast() {
+  toast.add({
+    type: "foreground",
+    duration: 20000,
+    color: "neutral",
+    close: {
+      size: "xl",
+      icon: "mdi:close-circle-outline",
+    },
+    icon: "mdi:devices",
+    ui: {
+      actions: "justify-center",
+      description: "text-justify lg:text-bold",
+    },
+    title: t("pwaInstallTitle"),
+    description: t("pwaInstalDescription"),
+    actions: [
+      {
+        icon: "mdi:cellphone-arrow-down",
+        label: t("pwaInstallButtonLabel"),
+        color: "neutral",
+        variant: "soft",
+        size: "xl",
+        onClick: () => installApp(),
+      },
+    ],
+  });
+}
+
+const installApp = async () => {
+  await $pwa?.install().then((response) => console.log(response));
+  state.value.wasInstallPromptShowed = true;
+};
 
 function showUpdateToast() {
   toast.add({
@@ -54,6 +91,10 @@ function showOfflineReadyToast() {
 }
 
 tryOnMounted(() => {
+  if (!state.value.wasInstallPromptShowed && $pwa?.showInstallPrompt) {
+    showInstallToast();
+  }
+
   if ($pwa?.offlineReady && $pwa.isPWAInstalled) {
     showOfflineReadyToast();
   }
