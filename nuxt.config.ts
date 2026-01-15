@@ -694,6 +694,7 @@ export default defineNuxtConfig({
       globPatterns: [
         "**/*.{js,json,css,html,txt,svg,png,ico,webp,woff,woff2,ttf,eot,otf,wasm}",
       ],
+      globIgnores: ["**/netlify.toml"],
       cleanupOutdatedCaches: true,
       clientsClaim: true,
       navigateFallback: null,
@@ -702,10 +703,10 @@ export default defineNuxtConfig({
       globPatterns: [
         "**/*.{js,json,css,html,txt,svg,png,ico,webp,woff,woff2,ttf,eot,otf,wasm}",
       ],
-      globIgnores: ["emojis/**", "manifest**.webmanifest", "**/*.{toml}"],
+      globIgnores: ["emojis/**", "manifest**.webmanifest", "**/netlify.toml"],
     },
     client: {
-      installPrompt: true,
+      installPrompt: false,
       periodicSyncForUpdates: 24 * 60 * 60,
     },
     devOptions: {
