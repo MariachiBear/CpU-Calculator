@@ -12,5 +12,8 @@
     "description": "Una aplicación web moderna y avanzada para calcular el coste por unidad de los productos. Compare precios de forma eficaz normalizándolos a una unidad común (por ejemplo, coste por kg, por litro, por libra, etc.)."
   },
   "pwaOfflineAvailableTitle": "¡Modo offline listo!",
-  "pwaOfflineAvailableDescription": "La aplicación está lista para ser utilizada sin conexión."
+  "pwaOfflineAvailableDescription": "La aplicación está lista para ser utilizada sin conexión.",
+  "pwaInstalDescription": "Puede instalar esta aplicación en su dispositivo pulsando el botón de instalación.",
+  "pwaInstallTitle": "Puede instalar esta aplicación!",
+  "pwaInstallButtonLabel": "Instale"
 }

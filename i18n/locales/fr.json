@@ -12,5 +12,8 @@
     "description": "Une application web moderne et innovante permettant de calculer le coût unitaire des produits. Comparez efficacement les prix en les normalisant selon une unité commune (par exemple, coût au kg, au litre, à la livre, etc.)."
   },
   "pwaOfflineAvailableTitle": "Mode hors ligne prêt !",
-  "pwaOfflineAvailableDescription": "L'application est prête à être utilisée hors ligne."
+  "pwaOfflineAvailableDescription": "L'application est prête à être utilisée hors ligne.",
+  "pwaInstalDescription": "Vous pouvez installer cette application sur votre appareil en appuyant sur le bouton d'installation.",
+  "pwaInstallTitle": "Vous pouvez installer cette application !",
+  "pwaInstallButtonLabel": "Installer"
 }
