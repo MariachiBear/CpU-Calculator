@@ -76,7 +76,7 @@ export default defineNuxtConfig({
   pwa: {
     base: "/",
     scope: "/",
-    injectRegister: false,
+    injectRegister: "inline",
     strategies: sw ? "injectManifest" : "generateSW",
     srcDir: sw ? "service-worker" : undefined,
     filename: sw ? "sw.ts" : undefined,
@@ -694,9 +694,9 @@ export default defineNuxtConfig({
       globPatterns: [
         "**/*.{js,json,css,html,txt,svg,png,ico,webp,woff,woff2,ttf,eot,otf,wasm}",
       ],
-      globIgnores: ["**/*.{toml}"],
       cleanupOutdatedCaches: true,
       clientsClaim: true,
+      navigateFallback: null,
     },
     injectManifest: {
       globPatterns: [
