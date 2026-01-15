@@ -60,8 +60,8 @@ precacheAndRoute(assetsToCache);
 
 // Default page handler for offline usage,
 // where the browser does not how to handle deep links
-// it's a SPA, so each path that is a navigation should default to index.html
-const defaultRouteHandler = createHandlerBoundToURL("/index.html");
+// it's a SPA, so each path that is a navigation should default to root
+const defaultRouteHandler = createHandlerBoundToURL("/");
 const defaultNavigationRoute = new NavigationRoute(defaultRouteHandler, {
   // allowlist: [],
   // denylist: [],
