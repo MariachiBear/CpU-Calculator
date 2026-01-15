@@ -5,6 +5,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       console.log(`service worker registered at ${url}`, registration);
     });
     nuxtApp.hook("service-worker:registration-failed", ({ error }) => {
+      // eslint-disable-next-line no-console
       console.error(`service worker registration failed`, error);
     });
     nuxtApp.hook("service-worker:activated", ({ url, registration }) => {
