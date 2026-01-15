@@ -67,6 +67,7 @@ export default defineNuxtConfig({
   },
 
   nitro: {
+    ignore: ["netlify.toml", "*.toml"],
     prerender: {
       crawlLinks: true,
       routes: ["/"],
@@ -694,16 +695,24 @@ export default defineNuxtConfig({
       globPatterns: [
         "**/*.{js,json,css,html,txt,svg,png,ico,webp,woff,woff2,ttf,eot,otf,wasm}",
       ],
-      globIgnores: ["**/netlify.toml"],
+      globIgnores: [
+        "**/netlify.toml", // Specific file exclusion
+        "**/*.toml", // All TOML files (without curly braces)
+      ],
       cleanupOutdatedCaches: true,
       clientsClaim: true,
-      navigateFallback: null,
     },
+
     injectManifest: {
       globPatterns: [
         "**/*.{js,json,css,html,txt,svg,png,ico,webp,woff,woff2,ttf,eot,otf,wasm}",
       ],
-      globIgnores: ["emojis/**", "manifest**.webmanifest", "**/netlify.toml"],
+      globIgnores: [
+        "emojis/**",
+        "manifest**.webmanifest",
+        "**/netlify.toml", // Add explicit exclusion
+        "**/*.toml", // Remove curly braces
+      ],
     },
     client: {
       installPrompt: false,
